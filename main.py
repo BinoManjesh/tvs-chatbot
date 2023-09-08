@@ -20,8 +20,7 @@ if 'generated' not in st.session_state:
     st.session_state['generated'] = []
 if 'past' not in st.session_state:
     st.session_state['past'] = []
-u=st.text_input("Input Message: ","", key="input")
-
+u=st.chat_input("Input Message: ")
 if u:
     output=get_response(u)
     st.session_state.past.append(u)
