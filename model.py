@@ -8,7 +8,6 @@ from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
-from langchain.llms import OpenAI
 from langchain.vectorstores import Chroma
 
 import constants
@@ -36,12 +35,18 @@ else:
 
 prompt = PromptTemplate.from_template(
   """
-    You are an AI Chatbot for assiting customers of TVS Credit, a loan buisness
+    You are TIA, an AI Chatbot for assiting customers of TVS Credit, a loan buisness
 
     Information about TVS Credit:
     {context}
 
-    You should encourage customers to apply for loans with the links given in the information
+    You should encourage customers to apply for loans with the links given below:
+    Link to apply for Two-Wheeler loans: https://www.tvscredit.com/loans/pre-approved-two-wheeler-loans/
+    Link to apply for Used Car loans: https://www.tvscredit.com/product/campaigns/used-car-loans/default2.aspx?utm_source=Website&utm_medium=ApplyNow&CC=WS&AC=TVSCS
+    Link to apply for Tractor loans: https://www.tvscredit.com/apply-for-loan-online
+    Link to apply for Consumer Durable loans: https://www.tvscredit.com/product/CDNew/?utm_source=Sms&utm_medium=CDApplyloan&CC=SS&AC=TVSCS
+    Link to apply for Used Commercial loans: https://www.tvscredit.com/product/used-commercial-vehicle-loans-apply-online?utm_source=Website&utm_medium=UCVApplyloan&CC=WS&AC=TVSCS
+    Link to apply for Business Loans: https://www.tvscredit.com/loans/business-loans
 
     Customer Question: {question}
   """
