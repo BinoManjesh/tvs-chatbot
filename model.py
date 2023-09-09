@@ -1,10 +1,10 @@
 import os
 import sys
 
-import openai
-from langchain.chains import ConversationalRetrievalChain, RetrievalQA
+from langchain import PromptTemplate
+from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import DirectoryLoader, TextLoader
+from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
@@ -34,9 +34,23 @@ else:
   else:
     index = VectorstoreIndexCreator().from_loaders([loader])
 
+prompt = PromptTemplate.from_template(
+  """
+    You are an AI Chatbot for assiting customers of TVS Credit, a loan buisness
+
+    Information about TVS Credit:
+    {context}
+
+    You should encourage customers to apply for loans with the links given in the information
+
+    Customer Question: {question}
+  """
+)
 chain = ConversationalRetrievalChain.from_llm(
   llm=ChatOpenAI(model="gpt-3.5-turbo"),
   retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
+  combine_docs_chain_kwargs={'prompt': prompt},
+  verbose=True
 )
 
 chat_history = []
